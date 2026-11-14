@@ -1,6 +1,6 @@
 // app.js — 블로그 포스트 스튜디오 메인 애플리케이션
 import { store, normalizePost, TONES, LENGTHS, blankSection } from './store.js';
-import { samplePost } from './sample.js';
+import { samplePost } from './sample.js?v=b2';
 import { analyze, bodyChars, readinessLabel } from './analyze.js';
 import { buildBodyHTML, buildMarkdown, exportZip, copyHTML, downloadCardnewsProject } from './exporters.js';
 import { download, slugify, normalizeImage, log } from './util.js';
