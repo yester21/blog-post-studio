@@ -32,9 +32,10 @@ export function analyze(post) {
   const altsOk = images.filter((s) => (s.image.alt || '').trim()).length;
   const altKw = images.filter((s) => keywordIn(kw, s.image.alt || '')).length;
 
-  // 키워드 밀도: 키워드 글자수 × 등장 횟수 / 본문 글자수 (한국어 가중 방식, 0.4~2.5% 밴드)
+  // 키워드 밀도: 키워드 글자수(공백 제외) × 등장 횟수 / 본문 글자수 (0.4~2.5% 밴드)
+  // 공백을 제외하는 이유: 띄어쓰기 포함 긴 키워드("재택근무 책상 세팅")의 밀도가 과대 계산되는 것을 막는다.
   const occurs = kw ? occurrences(kw, body) : 0;
-  const kwChars = kw.length;
+  const kwChars = kw.replace(/\s+/g, '').length;
   const density = chars > 0 && kwChars > 0 ? (occurs * kwChars) / chars * 100 : 0;
 
   // 서브 키워드 커버: 소제목+본문에서 각 서브 키워드가 다뤄졌는지
@@ -107,7 +108,7 @@ function buildChecks(m, kw) {
 
   const okDensity = m.density >= 0.4 && m.density <= 2.5;
   c.push(check('density', '키워드 밀도 0.4~2.5%', 8, okDensity, m.density > 0,
-    `현재 밀도 약 ${m.density.toFixed(2)}% (본문 ${m.occurs}회). 0.4~2.5%가 적정이며 억지 반복은 역효과입니다.`));
+    `현재 밀도 약 ${m.density.toFixed(2)}% (본문 ${m.occurs}회, 공백 제외 글자 수 기준). 0.4~2.5%가 적정이며 억지 반복은 역효과입니다.`));
 
   c.push(check('length', `본문 길이 (권장 ${m.target_chars.toLocaleString()}자 이상)`, 14,
     m.char_count >= m.target_chars,

@@ -237,16 +237,14 @@ function splitTitle(title) {
   return lines.slice(0, 3);
 }
 
+// 첫 문장(또는 maxLen 앞부분)을 카드 한 줄 배열로 반환 — 카드뉴스 표지·섹션 요약용
 function firstSentence(text, maxLen) {
   const t = (text || '').replace(/\n/g, ' ').trim();
   if (!t) return null;
   const cut = t.slice(0, maxLen);
   const dot = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
-  const s = dot > 10 ? cut.slice(0, dot + 1) : cut;
-  return s ? s.split(/(?<=\.)\s/).reduce((acc, part, i) => {
-    const lines = i === 0 ? [part] : acc;
-    return lines;
-  }, []) : null;
+  const s = (dot > 10 ? cut.slice(0, dot + 1) : cut).trim();
+  return s ? [s] : null;
 }
 
 function trimTo(s, max) {
