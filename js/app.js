@@ -446,7 +446,7 @@ function deleteSection(i) {
 function openSettings() {
   const P = store.post;
   openModal('글 설정', '키워드·톤·목표 길이·링크·SEO 메타를 지정합니다. 분석과 AI 프롬프트에 그대로 반영됩니다.', (box) => {
-    const mainKw = textField('포커스 키워드', P.mainKeyword, '예: 재택근무 책상 세팅', (v) => upd((p) => { p.mainKeyword = v; }));
+    const mainKw = textField('포커스 키워드', P.mainKeyword, '예: 견적서와 인보이스', (v) => upd((p) => { p.mainKeyword = v; }));
     const title = textField('글 제목', P.title, '15~40자 권장', (v) => upd((p) => { p.title = v; }));
     const metaDesc = el('textarea', { placeholder: '검색결과에 표시될 설명 80~160자' });
     metaDesc.value = P.metaDesc;
@@ -658,7 +658,9 @@ function wireHeader() {
 
 function wireStore() {
   store.on('post', () => {
-    repaint();
+    // 텍스트 입력 중 포커스 유지가 최우선 — 편집 패널은 여기서 재렌더링하지 않는다.
+    // 구조 변경(섹션 추가/삭제/이동, 이미지 교체)은 각 핸들러가 renderEditor를 직접 호출한다.
+    repaint({ editor: false });
     const t = $('#post-title');
     if (t.value !== store.post.title) t.value = store.post.title;
   });
