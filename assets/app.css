@@ -3,6 +3,15 @@
    Fog Canvas #f5f5f7 / Surface #ffffff / Foreground #1d1d1f / Muted #6e6e73
    Primary #0071e3 pill / Link #0066cc / 카드 라디우스 18px / 플랫 지면 */
 
+/* Pretendard — 자체호스팅 변수 폰트 (SIL OFL 1.1) */
+@font-face {
+  font-family: "Pretendard";
+  src: url("fonts/PretendardVariable.woff2") format("woff2");
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --ui-bg: #f5f5f7;
   --ui-surface: #ffffff;
@@ -32,7 +41,7 @@
   --header-h: 60px;
   --rail-w: 216px;
   --editor-w: 420px;
-  --ui-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+  --ui-font: "Pretendard", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Helvetica Neue", "Segoe UI", Roboto, Arial, "Malgun Gothic", "맑은 고딕", sans-serif;
 }
 
@@ -45,6 +54,7 @@ html, body {
   color: var(--ui-text);
   font-family: var(--ui-font);
   font-size: 14px;
+  letter-spacing: -0.02em; /* 프리텐다드 자간 보정 */
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
 }
